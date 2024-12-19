@@ -1,0 +1,7 @@
+<h1>Tasks for {{ project.name }}</h1>
+<a href="/tasks/{{ project.id }}/create/">Create New Task</a>
+<ul>
+    {% for task in tasks %}
+    <li><a href="/tasks/{{ project.id }}/{{ task.id }}/">{{ task.name }}</a></li>
+    {% endfor %}
+</ul>

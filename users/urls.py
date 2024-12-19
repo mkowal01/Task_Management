@@ -1,7 +1,9 @@
 from django.urls import path
-from . import views  # Import widoków z aplikacji users
+from . import views
 
 urlpatterns = [
-    # Przykładowy widok (trzeba dodać widok w `users/views.py`)
-    path('example/', views.example_view, name='example_view'),
+    path('', views.homepage, name='homepage'),
+    path('register/', views.register, name='register'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
 ]

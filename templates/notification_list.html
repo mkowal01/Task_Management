@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Powiadomień</title>
+</head>
+<body>
+    <h1>Twoje Powiadomienia</h1>
+
+    {% if notifications %}
+        <ul>
+            {% for notification in notifications %}
+                <li>
+                    <p><strong>{{ notification.title }}</strong></p>
+                    <p>{{ notification.message }}</p>
+                    <p><em>Data: {{ notification.created_at }}</em></p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nie masz żadnych powiadomień.</p>
+    {% endif %}
+</body>
+</html>

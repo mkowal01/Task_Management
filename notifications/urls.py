@@ -1,5 +1,6 @@
 from django.urls import path
+from . import views
 
 urlpatterns = [
-    # Dodaj ścieżki związane z powiadomieniami, gdy będą gotowe
+    path('', views.list_notifications, name='list_notifications'),
 ]

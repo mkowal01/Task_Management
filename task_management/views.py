@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 
 def homepage(request):
-    return HttpResponse("Welcome to Task Management App!")
+    return render(request, 'homepage.html')  # Szablon w globalnym folderze templates
