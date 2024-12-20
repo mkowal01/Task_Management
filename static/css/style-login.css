@@ -1,0 +1,151 @@
+/* Ogólny styl */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #000; /* Czarny tekst */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden; /* Ukrycie pasków przewijania */
+}
+
+/* Animacja tła */
+body::before {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, #ff0000, #ffd700, #000000, #ff0000);
+    background-size: 400% 400%;
+    animation: gradientAnimation 10s ease infinite;
+    z-index: -1;
+}
+
+/* Kontener główny */
+.container {
+    text-align: center;
+    width: 90%;
+    max-width: 600px; /* Mniejszy kontener logowania */
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease;
+}
+
+/* Nagłówek */
+header {
+    background-color: #b22222; /* Czerwień */
+    color: #f4f4f9; /* Jasny tekst */
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin: 0;
+}
+
+/* Formularz */
+form {
+    margin: 0 auto;
+    text-align: left;
+    animation: slideUp 0.8s ease;
+}
+
+form label {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #000; /* Czarny tekst */
+}
+
+form input {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0 20px 0;
+    border: 2px solid #b22222;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+form input:focus {
+    outline: none;
+    border-color: #ffd700; /* Złoty podczas focus */
+    box-shadow: 0 0 5px #ffd700;
+}
+
+/* Przycisk logowania */
+form button {
+    width: 100%;
+    background-color: #ffd700; /* Złoty przycisk */
+    color: #000; /* Czarny tekst */
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+form button:hover {
+    background-color: #ffcc00; /* Jaśniejsze złoto */
+    transform: scale(1.05);
+}
+
+/* Linki pomocnicze */
+.additional-links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.additional-links a {
+    text-decoration: none;
+    font-size: 1.1em;
+    color: #b22222; /* Czerwony tekst */
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.additional-links a:hover {
+    color: #ff0000; /* Intensywniejsza czerwień */
+}
+
+/* Animacje */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}

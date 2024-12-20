@@ -1,22 +1,28 @@
 from django.db import models
-from projects.models import Project
-from users.models import User
+from django.conf import settings
 
 
 class Task(models.Model):
-    STATUS_CHOICES = [
-        ('Pending', 'Pending'),
-        ('In Progress', 'In Progress'),
-        ('Completed', 'Completed'),
-    ]
-
-    name = models.CharField(max_length=255)
-    description = models.TextField()
-    deadline = models.DateField()
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')  # Zwiększono max_length do 20
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='tasks')
-    assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='tasks')
-
+    name = models.CharField(max_length=255)  # Nazwa zadania
+    description = models.TextField(blank=True, null=True)  # Opis zadania (opcjonalny)
+    deadline = models.DateField(null=True, blank=True)  # Termin realizacji
+    status = models.CharField(
+        max_length=20,
+        choices=[
+            ('to_do', 'To Do'),
+            ('in_progress', 'In Progress'),
+            ('completed', 'Completed'),
+        ],
+        default='to_do',
+    )  # Status zadania
+    progress = models.IntegerField(default=0)  # Postęp w procentach (0-100)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,  # Wskazanie na model użytkownika
+        on_delete=models.CASCADE,  # Usunięcie użytkownika powoduje usunięcie jego zadań
+        related_name='tasks'  # Dodanie odwrotnego dostępu z poziomu użytkownika
+    )
+    created_at = models.DateTimeField(auto_now_add=True)  # Data utworzenia
+    updated_at = models.DateTimeField(auto_now=True)  # Data ostatniej aktualizacji
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.status})"

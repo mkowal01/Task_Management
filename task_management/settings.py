@@ -75,6 +75,17 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Lokalizacja plików statycznych
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # Upewnij się, że ta ścieżka istnieje
+]
+
+# Ścieżka do zbierania plików statycznych
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
+
+LOGIN_REDIRECT_URL = '/users/dashboard/'
+LOGOUT_REDIRECT_URL = '/'

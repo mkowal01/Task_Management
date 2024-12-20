@@ -1,18 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Management App</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h1>Welcome to Task Management App!</h1>
-
-    {% if user.is_authenticated %}
-        <p>Hello, {{ user.username }}!</p>
-        <a href="/logout/">Logout</a>
-    {% else %}
-        <a href="/register/">Register</a> | <a href="/login/">Login</a>
-    {% endif %}
+    <div class="container">
+        <header>
+            <h1>Task Management App</h1>
+            <p>Organize your tasks efficiently!</p>
+        </header>
+        <main>
+            <div class="user-info">
+                <img src="{% static 'images/avataaars.png' %}" alt="User Avatar">
+                <h2>Welcome to Task Management</h2>
+                <p>Manage your tasks with ease and efficiency.</p>
+            </div>
+            <div class="action-buttons">
+                <a href="/register/">
+                    <img src="{% static 'images/user-add.png' %}" alt="Register Icon"> Register
+                </a>
+                <a href="/login/">
+                    <img src="{% static 'images/user.png' %}" alt="Login Icon"> Login
+                </a>
+                <a href="#" class="btn">Features</a>
+                <a href="#" class="btn">Pricing</a>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2024 Task Management. All rights reserved.</p>
+        </footer>
+    </div>
 </body>
 </html>

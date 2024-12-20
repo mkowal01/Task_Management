@@ -1,0 +1,106 @@
+/* Ogólny styl */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #000; /* Czarny tekst */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Kontener główny */
+.container {
+    text-align: center;
+    width: 90%;
+    max-width: 1600px;
+}
+
+/* Nagłówek */
+header {
+    background-color: #b22222; /* Czerwień */
+    color: #f4f4f9; /* Jasny kolor tekstu */
+    padding: 40px 20px;
+    border-radius: 10px;
+}
+
+header h1 {
+    font-size: 4em;
+    margin: 0;
+}
+
+header p {
+    font-size: 1.5em;
+    margin: 10px 0 0 0;
+}
+
+/* Sekcja główna */
+.user-info {
+    margin: 40px 0;
+    text-align: center;
+}
+
+.user-info img {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    border: 6px solid #b22222; /* Obramowanie czerwień */
+    margin-bottom: 20px;
+}
+
+.user-info h2 {
+    font-size: 3em;
+    margin: 0;
+    color: #000; /* Czarny napis */
+}
+
+.user-info p {
+    font-size: 1.5em;
+    color: #555; /* Przygaszony czarny */
+}
+
+/* Przyciski akcji */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.action-buttons a {
+    text-decoration: none;
+    color: #000; /* Czarny tekst */
+    background-color: #ffd700; /* Złoty przycisk */
+    padding: 20px 40px;
+    border-radius: 10px;
+    font-size: 1.5em;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: 240px;
+    height: 80px;
+}
+
+.action-buttons a:hover {
+    background-color: #ffcc00; /* Jasniejsze złoto */
+}
+
+.action-buttons a img {
+    width: 35px;
+    height: 35px;
+}
+
+/* Stopka */
+footer {
+    background-color: #000; /* Czarna stopka */
+    color: #ffd700; /* Złoty tekst */
+    padding: 20px 0;
+    font-size: 1.2em;
+    margin-top: 50px;
+    border-radius: 10px;
+}

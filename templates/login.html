@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/style-login.css' %}">
 </head>
 <body>
-    <h1>Login</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
-    <a href="{% url 'register' %}">Don't have an account? Register here</a><br>
-    <a href="{% url 'homepage' %}">Back to Homepage</a>
+    <div class="container">
+        <header>
+            <h1>Login</h1>
+            <p>Access your account to manage tasks</p>
+        </header>
+
+        <main>
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                
+                <button type="submit">Login</button>
+            </form>
+
+            <div class="additional-links">
+                <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+                <a href="{% url 'homepage' %}">Back to Homepage</a>
+            </div>
+        </main>
+    </div>
 </body>
 </html>
