@@ -1,35 +1,49 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .models import Task
+from django.shortcuts import render, get_object_or_404, redirect
+# from django.http import HttpResponseForbidden
+from .models import Task, Step
 
 
-@login_required
 def dashboard(request):
-    # Pobranie tasków użytkownika
     tasks = Task.objects.filter(user=request.user)
+    task_id = request.GET.get('task_id')
+    selected_task = None
 
-    # Obliczanie procentu ukończenia każdego taska
-    for task in tasks:
-        task.completion_percentage = int((task.completed_steps / task.total_steps) * 100) if task.total_steps > 0 else 0
+    if task_id:
+        selected_task = get_object_or_404(Task, id=task_id, user=request.user)
 
-    return render(request, 'dashboard.html', {'tasks': tasks})
+    return render(request, 'dashboard.html', {
+        'tasks': tasks,
+        'selected_task': selected_task,
+    })
 
 
-@login_required
 def create_task(request):
-    if request.method == "POST":
-        name = request.POST.get('name')
-        description = request.POST.get('description')
-        total_steps = int(request.POST.get('total_steps', 0))
-
-        # Tworzenie nowego taska
-        Task.objects.create(
-            user=request.user,
-            name=name,
-            description=description,
-            total_steps=total_steps,
-            completed_steps=0  # Domyślnie task zaczyna się od 0
-        )
+    if request.method == 'POST':
+        name = request.POST['name']
+        description = request.POST.get('description', '')
+        Task.objects.create(name=name, description=description, user=request.user)
         return redirect('dashboard')
-
     return render(request, 'create_task.html')
+
+
+def add_step(request, task_id):
+    task = get_object_or_404(Task, id=task_id, user=request.user)
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        Step.objects.create(task=task, name=name)
+        return redirect('dashboard')
+    return render(request, 'add_step.html', {'task': task})
+
+
+def update_step(request, step_id):
+    step = get_object_or_404(Step, id=step_id, task__user=request.user)
+    if request.method == 'POST':
+        step.is_completed = 'is_completed' in request.POST
+        step.save()
+        # Automatyczna aktualizacja postępu zadania
+        task = step.task
+        total_steps = task.steps.count()
+        completed_steps = task.steps.filter(is_completed=True).count()
+        task.progress = (completed_steps / total_steps) * 100 if total_steps > 0 else 0
+        task.save()
+    return redirect('dashboard')

@@ -9,39 +9,55 @@
 </head>
 <body>
     <header>
-        <div class="header-content">
-            <h1>Your Tasks</h1>
-            <a href="#" class="settings-btn">⚙</a>
-        </div>
-        <nav class="settings-menu hidden">
-            <ul>
-                <li><a href="#">Account Settings</a></li>
-                <li><a href="#">Customize App</a></li>
-                <li><a href="#">Logout</a></li>
-                <li><a href="#">Upgrade Plan</a></li>
-            </ul>
-        </nav>
+        <h1>Your Tasks</h1>
+        <a href="{% url 'logout' %}" class="logout">Logout</a>
     </header>
-
     <main>
-        <div class="task-list">
+        <!-- Kontener zadań -->
+        <div class="task-container">
             {% for task in tasks %}
             <div class="task-card">
                 <h2>{{ task.name }}</h2>
                 <p>{{ task.description }}</p>
-                <div class="progress">
-                    <div class="progress-bar" style="width: {{ task.completion_percentage }}%;"></div>
+                <div class="progress-bar">
+                    <div class="progress" style="width: {{ task.progress }}%;"></div>
                 </div>
-                <p>{{ task.completion_percentage }}% Complete</p>
+                <p>{{ task.progress }}% Complete</p>
+                <button class="details-btn" data-task-id="{{ task.id }}">View Details</button>
             </div>
             {% endfor %}
         </div>
-        <a href="{% url 'create_task' %}" class="add-task-btn">Add Task</a>
+
+        <!-- Przycisk dodawania zadań -->
+        <button class="add-task-btn" onclick="location.href='{% url 'create_task' %}'">Add Task</button>
+
+        <!-- Modal szczegółów zadania -->
+        <div id="task-details-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+
+                {% if selected_task %}
+                <h2>Task: {{ selected_task.name }}</h2>
+                <p>Description: {{ selected_task.description }}</p>
+                <h3>Steps:</h3>
+                <ul>
+                    {% for step in selected_task.steps.all %}
+                    <li>
+                        <input type="checkbox" {% if step.is_completed %}checked{% endif %} data-step-id="{{ step.id }}">
+                        {{ step.name }}
+                    </li>
+                    {% empty %}
+                    <li>No steps added yet for this task.</li>
+                    {% endfor %}
+                </ul>
+                <!-- Link do dodawania kroku -->
+                <a href="{% url 'add_step' task_id=selected_task.id %}">Add Step</a>
+                {% else %}
+                <p>Select a task to view its details.</p>
+                {% endif %}
+            </div>
+        </div>
     </main>
+    <script src="{% static 'js/dashboard.js' %}"></script>
 </body>
-<script>
-    document.querySelector('.settings-btn').addEventListener('click', () => {
-        document.querySelector('.settings-menu').classList.toggle('hidden');
-    });
-</script>
 </html>

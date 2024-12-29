@@ -6,6 +6,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Management App</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        /* Wewnętrzne zmiany CSS dla większych elementów */
+        .container {
+            text-align: center;
+            max-width: 90%; /* Zwiększone na szerokość strony */
+            padding: 50px;
+            margin: 0 auto;
+        }
+
+        header h1 {
+            font-size: 4rem; /* Większy nagłówek */
+            color: #b30000;
+        }
+
+        header p {
+            font-size: 1.8rem; /* Większy podtytuł */
+            color: #666;
+        }
+
+        .user-info img {
+            width: 200px; /* Większy avatar */
+            height: 200px;
+            border-radius: 50%;
+        }
+
+        .user-info h2 {
+            font-size: 3rem; /* Większy tekst powitania */
+            margin: 20px 0;
+        }
+
+        .user-info p {
+            font-size: 1.5rem; /* Większy tekst pomocniczy */
+            margin-bottom: 30px;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 40px; /* Większe odstępy */
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+
+        .action-buttons a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 200px; /* Większe przyciski */
+            height: 200px;
+            background-color: #ffcc00;
+            color: #333;
+            text-decoration: none;
+            font-size: 1.8rem; /* Większa czcionka */
+            font-weight: bold;
+            border-radius: 10px;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .action-buttons a:hover {
+            background-color: #e6b800;
+            transform: translateY(-5px);
+        }
+
+        .action-buttons a img {
+            width: 80px; /* Większe ikony */
+            height: 80px;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 1.5rem; /* Większy tekst w stopce */
+            color: #999;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -20,10 +97,10 @@
                 <p>Manage your tasks with ease and efficiency.</p>
             </div>
             <div class="action-buttons">
-                <a href="/register/">
+                <a href="{% url 'register' %}">
                     <img src="{% static 'images/user-add.png' %}" alt="Register Icon"> Register
                 </a>
-                <a href="/login/">
+                <a href="{% url 'login' %}">
                     <img src="{% static 'images/user.png' %}" alt="Login Icon"> Login
                 </a>
                 <a href="#" class="btn">Features</a>

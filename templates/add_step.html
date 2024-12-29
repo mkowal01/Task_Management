@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Step</title>
+    <link rel="stylesheet" href="{% static 'css/style-dashboard.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Add Step to "{{ task.name }}"</h1>
+    </header>
+    <main>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="task_id" value="{{ task.id }}">
+            <label for="name">Step Name:</label>
+            <input type="text" id="name" name="name" required>
+            <button type="submit">Add Step</button>
+        </form>
+        <a href="{% url 'dashboard' %}" class="back-btn">Back to Dashboard</a>
+    </main>
+</body>
+</html>

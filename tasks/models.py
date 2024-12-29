@@ -26,3 +26,25 @@ class Task(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.status})"
+
+    def calculate_progress(self):
+        """Oblicza postęp w oparciu o ukończone kroki"""
+        steps = self.steps.all()
+        if not steps.exists():
+            return 0
+        completed_steps = steps.filter(is_completed=True).count()
+        total_steps = steps.count()
+        return int((completed_steps / total_steps) * 100)
+
+
+class Step(models.Model):
+    task = models.ForeignKey(
+        Task,
+        on_delete=models.CASCADE,
+        related_name='steps'
+    )  # Powiązanie z zadaniem
+    name = models.CharField(max_length=255)  # Nazwa kroku
+    is_completed = models.BooleanField(default=False)  # Czy krok został ukończony
+
+    def __str__(self):
+        return f"{self.name} - {'Completed' if self.is_completed else 'Pending'}"

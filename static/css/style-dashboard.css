@@ -1,70 +1,66 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
     margin: 0;
     padding: 0;
+    background-color: #f4f4f9;
 }
 
 header {
     background-color: #4CAF50;
     color: white;
     padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    text-align: center;
+    position: relative;
 }
 
-.settings-menu {
+header .logout-btn {
     position: absolute;
     right: 20px;
-    top: 70px;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    display: none;
-}
-
-.settings-menu ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.settings-menu ul li {
+    top: 20px;
+    text-decoration: none;
+    color: white;
+    background-color: #333;
     padding: 10px 20px;
+    border-radius: 5px;
 }
 
-.settings-menu ul li:hover {
-    background-color: #f4f4f9;
-}
-
-.task-list {
+.tasks-container {
     display: flex;
+    justify-content: space-around;
     flex-wrap: wrap;
+    margin: 20px;
     gap: 20px;
     padding: 20px;
 }
 
 .task-card {
     background-color: white;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    width: 300px;
+    text-align: center;
+    max-width: 300px;
+    width: 100%;
+    margin: auto;
 }
 
-.progress {
-    height: 10px;
-    background-color: #f4f4f9;
+.task-card h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.task-card .progress-bar {
+    background-color: #ddd;
     border-radius: 5px;
-    overflow: hidden;
     margin: 10px 0;
+    height: 20px;
+    overflow: hidden;
 }
 
-.progress-bar {
-    height: 100%;
+.task-card .progress-bar .progress {
     background-color: #4CAF50;
+    height: 100%;
 }
 
 .add-task-btn {
@@ -73,8 +69,62 @@ header {
     padding: 10px 20px;
     background-color: #4CAF50;
     color: white;
-    text-align: center;
+    border: none;
     border-radius: 5px;
-    text-decoration: none;
-    width: 200px;
+    cursor: pointer;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+}
+
+.modal .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5em;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+#task-details-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 8px;
+    width: 50%; /* Opcjonalne, dla lepszej kontroli rozmiaru */
+    max-height: 80%; /* Opcjonalne, aby zapobiec nadmiernemu powiększaniu */
+    overflow-y: auto; /* Dodaje scrollowanie, jeśli treść jest zbyt duża */
+}
+
+#task-details-modal .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
 }

@@ -21,8 +21,14 @@
             <label for="description">Description:</label>
             <textarea id="description" name="description"></textarea>
 
+            <label for="deadline">Deadline:</label>
+            <input type="date" id="deadline" name="deadline">
+
             <label for="total_steps">Total Steps:</label>
             <input type="number" id="total_steps" name="total_steps" min="1" required>
+
+            <label for="completed_steps">Completed Steps:</label>
+            <input type="number" id="completed_steps" name="completed_steps" min="0" value="0">
 
             <button type="submit">Add Task</button>
         </form>
