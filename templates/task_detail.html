@@ -1,4 +1,63 @@
-<h1>{{ task.name }}</h1>
-<p>{{ task.description }}</p>
-<p>Deadline: {{ task.deadline }}</p>
-<p>Status: {{ task.status }}</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Details</title>
+    <link rel="stylesheet" href="{% static 'css/style-task-details.css' %}">
+</head>
+<body>
+    <header class="header">
+        <h1>Task: {{ task.name }}</h1>
+        <p class="task-description">{{ task.description }}</p>
+        <a href="{% url 'dashboard' %}" class="back-btn">Back to Dashboard</a>
+    </header>
+
+    <main class="content">
+        <section class="steps-section">
+            <h2>Steps</h2>
+            <ul class="steps-list">
+                {% for step in steps %}
+                <li class="step-item">
+                    <form method="POST" action="{% url 'task_detail' task.id %}" class="step-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="step_id" value="{{ step.id }}">
+                        <label><strong>Step Name:</strong> {{ step.name }}</label><br>
+                        <label for="description_{{ step.id }}">Description:</label>
+                        <textarea id="description_{{ step.id }}" name="description" class="description-field">{{ step.description }}</textarea>
+                        <label class="completed-label">
+                            <input type="checkbox" name="is_completed" {% if step.is_completed %}checked{% endif %}>
+                            Mark as completed
+                        </label><br>
+                        <button type="submit" name="action" value="edit_step" class="btn-save">Save</button>
+                    </form>
+                    <form method="POST" action="{% url 'delete_step' step.id %}" class="delete-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-delete">Delete</button>
+                    </form>
+                </li>
+                {% empty %}
+                <li>No steps added yet for this task.</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="add-step-section">
+            <h3>Add New Step</h3>
+            <form method="POST" action="{% url 'add_step' task.id %}" class="add-step-form">
+                {% csrf_token %}
+                <label for="step_name">Step Name:</label>
+                <input id="step_name" type="text" name="name" placeholder="Step Name" class="step-input" required>
+                <label for="step_description">Step Description:</label>
+                <textarea id="step_description" name="description" placeholder="Step Description" class="step-textarea" required></textarea>
+                <button type="submit" class="btn-add">Add Step</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Task Management System</p>
+    </footer>
+</body>
+</html>

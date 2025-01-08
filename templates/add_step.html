@@ -14,9 +14,12 @@
     <main>
         <form method="POST">
             {% csrf_token %}
-            <input type="hidden" name="task_id" value="{{ task.id }}">
             <label for="name">Step Name:</label>
             <input type="text" id="name" name="name" required>
+        
+            <label for="description">Step Description:</label>
+            <textarea id="description" name="description" rows="4" placeholder="Enter step description"></textarea>
+        
             <button type="submit">Add Step</button>
         </form>
         <a href="{% url 'dashboard' %}" class="back-btn">Back to Dashboard</a>

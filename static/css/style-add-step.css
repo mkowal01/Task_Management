@@ -1,0 +1,88 @@
+/* Stylowanie nagłówka */
+header {
+    background: linear-gradient(to right, #004d40, #00796b);
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+/* Styl przycisku powrotu */
+a.back-btn {
+    text-decoration: none;
+    color: #ffeb3b;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+a.back-btn:hover {
+    color: #ffc107;
+}
+
+/* Główne stylowanie formularza */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    min-height: calc(100vh - 70px);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(to bottom, #e0f2f1, #b2dfdb);
+}
+
+form {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+}
+
+form h2 {
+    margin: 0 0 20px;
+    color: #004d40;
+    text-align: center;
+}
+
+/* Pola formularza */
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #b0bec5;
+    border-radius: 10px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+input:focus, textarea:focus {
+    border-color: #004d40;
+    outline: none;
+}
+
+/* Przyciski */
+button {
+    background: linear-gradient(to right, #00796b, #004d40);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background: linear-gradient(to right, #004d40, #00796b);
+    transform: scale(1.05);
+}

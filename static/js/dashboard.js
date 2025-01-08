@@ -1,20 +1,16 @@
 // Funkcja obsługująca otwieranie modala
 function openTaskDetailsModal(taskId) {
-    // Pobranie modala i ustawienie go jako widoczny
     const modal = document.getElementById("task-details-modal");
     modal.style.display = "block";
 
-    // Pobranie zawartości szczegółów zadania
-    fetch(`/tasks/${taskId}/details/`) // Przyjmuje URL endpointa Django
+    fetch(`/tasks/${taskId}/details/`)
         .then(response => response.json())
         .then(data => {
-            // Wypełnienie szczegółów zadania w modalnym oknie
             modal.querySelector("h2").innerText = `Task: ${data.name}`;
             modal.querySelector("p.description").innerText = `Description: ${data.description}`;
 
-            // Wypełnienie kroków zadania
             const stepsList = modal.querySelector("ul.steps-list");
-            stepsList.innerHTML = ""; // Czyszczenie listy przed załadowaniem nowych danych
+            stepsList.innerHTML = "";
 
             if (data.steps.length > 0) {
                 data.steps.forEach(step => {
@@ -26,7 +22,7 @@ function openTaskDetailsModal(taskId) {
 
                     // Obsługa zmiany stanu kroku
                     checkbox.addEventListener("change", function () {
-                        toggleStepCompletion(step.id, this.checked);
+                        toggleStepCompletion(step.id, this.checked, taskId);
                     });
 
                     listItem.appendChild(checkbox);
@@ -46,15 +42,18 @@ function openTaskDetailsModal(taskId) {
 function closeTaskDetailsModal() {
     const modal = document.getElementById("task-details-modal");
     modal.style.display = "none";
+
+    // Odśwież pasek postępu na głównym dashboardzie
+    refreshProgressBars();
 }
 
 // Funkcja do zmiany stanu kroku
-function toggleStepCompletion(stepId, isCompleted) {
+function toggleStepCompletion(stepId, isCompleted, taskId) {
     fetch(`/tasks/step/${stepId}/toggle/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "X-CSRFToken": getCSRFToken(), // Pobieranie CSRF tokena z ciasteczka
+            "X-CSRFToken": getCSRFToken(),
         },
         body: JSON.stringify({ is_completed: isCompleted })
     })
@@ -62,11 +61,41 @@ function toggleStepCompletion(stepId, isCompleted) {
             if (!response.ok) {
                 throw new Error("Failed to update step status");
             }
+            return response.json();
+        })
+        .then(data => {
+            // Odśwież pasek postępu w modalnym oknie
+            const modalProgress = document.querySelector("#modal-progress-bar");
+            if (modalProgress) {
+                modalProgress.style.width = `${data.progress}%`;
+            }
         })
         .catch(error => {
             console.error("Error updating step status:", error);
         });
 }
+
+// Funkcja odświeżania pasków postępu na głównym dashboardzie
+function refreshProgressBars() {
+    fetch(`/tasks/progress/`)
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(task => {
+                const progressBar = document.querySelector(`#progress-bar-${task.id}`);
+                if (progressBar) {
+                    progressBar.style.width = `${task.progress}%`;
+                }
+                const progressText = document.querySelector(`#progress-text-${task.id}`);
+                if (progressText) {
+                    progressText.textContent = `${task.progress}% Complete`;
+                }
+            });
+        })
+        .catch(error => {
+            console.error("Error refreshing progress bars:", error);
+        });
+}
+
 
 // Pobranie CSRF tokena
 function getCSRFToken() {
@@ -80,7 +109,7 @@ function getCSRFToken() {
     return null;
 }
 
-// Dodanie nasłuchu na kliknięcia przycisków "View Details"
+// Nasłuch na przycisk "View Details"
 document.querySelectorAll(".details-btn").forEach(button => {
     button.addEventListener("click", function () {
         const taskId = this.dataset.taskId;
@@ -88,10 +117,10 @@ document.querySelectorAll(".details-btn").forEach(button => {
     });
 });
 
-// Dodanie nasłuchu na zamykanie modala
+// Nasłuch na zamknięcie modala
 document.querySelector(".close-btn").addEventListener("click", closeTaskDetailsModal);
 
-// Obsługa zamykania modala po kliknięciu poza nim
+// Zamknięcie modala po kliknięciu poza nim
 window.addEventListener("click", function (event) {
     const modal = document.getElementById("task-details-modal");
     if (event.target === modal) {

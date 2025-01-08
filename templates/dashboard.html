@@ -10,7 +10,9 @@
 <body>
     <header>
         <h1>Your Tasks</h1>
-        <a href="{% url 'logout' %}" class="logout">Logout</a>
+        <div class="logout-container">
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
     </header>
     <main>
         <!-- Kontener zadań -->
@@ -23,40 +25,36 @@
                     <div class="progress" style="width: {{ task.progress }}%;"></div>
                 </div>
                 <p>{{ task.progress }}% Complete</p>
-                <button class="details-btn" data-task-id="{{ task.id }}">View Details</button>
+                <!-- Link do szczegółów zadania -->
+                <a href="{% url 'task_detail' task.id %}" class="details-link">View Details</a>
+                <!-- Przycisk usuwania zadania -->
+                <form method="POST" action="{% url 'delete_task' task.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-task-btn">Delete Task</button>
+                </form>
             </div>
             {% endfor %}
         </div>
 
         <!-- Przycisk dodawania zadań -->
         <button class="add-task-btn" onclick="location.href='{% url 'create_task' %}'">Add Task</button>
-
-        <!-- Modal szczegółów zadania -->
-        <div id="task-details-modal" class="modal">
-            <div class="modal-content">
-                <span class="close-btn">&times;</span>
-
-                {% if selected_task %}
-                <h2>Task: {{ selected_task.name }}</h2>
-                <p>Description: {{ selected_task.description }}</p>
-                <h3>Steps:</h3>
-                <ul>
-                    {% for step in selected_task.steps.all %}
-                    <li>
-                        <input type="checkbox" {% if step.is_completed %}checked{% endif %} data-step-id="{{ step.id }}">
-                        {{ step.name }}
-                    </li>
-                    {% empty %}
-                    <li>No steps added yet for this task.</li>
-                    {% endfor %}
-                </ul>
-                <!-- Link do dodawania kroku -->
-                <a href="{% url 'add_step' task_id=selected_task.id %}">Add Step</a>
-                {% else %}
-                <p>Select a task to view its details.</p>
-                {% endif %}
-            </div>
-        </div>
+        <ul>
+            {% for step in steps %}
+            <li>
+                <form method="POST" action="{% url 'delete_step' step.id %}">
+                    {% csrf_token %}
+                    <label><strong>Step Name:</strong> {{ step.name }}</label><br>
+                    <label for="description_{{ step.id }}">Description:</label>
+                    <textarea id="description_{{ step.id }}" name="description">{{ step.description }}</textarea><br>
+                    <label>
+                        <input type="checkbox" name="is_completed" {% if step.is_completed %}checked{% endif %}>
+                        Mark as completed
+                    </label><br>
+                    <button type="submit">Delete Step</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
     </main>
     <script src="{% static 'js/dashboard.js' %}"></script>
 </body>

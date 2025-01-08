@@ -11,13 +11,13 @@ def homepage(request):
 
 def register(request):
     if request.method == "POST":
-        form = UserCreationForm(request, request.POST)
+        form = CustomUserCreationForm(request.POST)  # Używamy Twojego formularza
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            return redirect('dashboard')  # Przekierowanie do dashboard
+            login(request, user)  # Logowanie użytkownika po rejestracji
+            return redirect('dashboard')  # Przekierowanie na dashboard
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'register.html', {'form': form})
 
 
@@ -42,3 +42,7 @@ def logout_view(request):
 @login_required
 def dashboard(request):
     return render(request, 'dashboard.html')
+
+
+def under_construction(request):
+    return render(request, 'under_construction.html')
